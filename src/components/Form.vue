@@ -24,6 +24,7 @@ export default {
       desc: null,
       value: null,
       date: null,
+      isNeg: false
     })
 
     function formHandler() {
@@ -31,14 +32,20 @@ export default {
       //   invallid.value = true;
       //   return
       // }
+      if (formData.value < 0) {
+        formData.isNeg = true
+      }
       emit("add-income", {
         desc: formData.desc,
         value: formData.value,
-        date: formData.date
+        date: formData.date,
+        isNeg: formData.isNeg
       })
       formData.desc = null
       formData.value = null
       formData.date = null
+      formData.isNeg = false
+
     }
 
     return {

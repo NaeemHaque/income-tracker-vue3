@@ -1,7 +1,7 @@
 <template>
   <div class="income-list-item">
     <div class="desc">{{ income.desc }}</div>
-    <div class="value">${{ income.value }}</div>
+    <div class="value"  :style="{ color: activeColor}">${{ income.value }}</div>
     <div class="date">{{ formattedDate }}</div>
     <div class="removeItem" @click="removeItem">x</div>
 
@@ -9,12 +9,19 @@
 </template>
 
 <script>
+import {ref} from "vue";
+
 export default {
   props: {
    income: Object
   },
 
+
+
   setup (props, { emit }) {
+
+    // eslint-disable-next-line no-unused-vars
+    let activeColor = ref("green")
 
     let date = new Date(props.income.date);
     let day = date.getDate();
@@ -22,13 +29,19 @@ export default {
     let year = date.getFullYear();
     let formattedDate = day + "/" + month + "/" + year;
 
+    if (props.income.isNeg) {
+      // document.getElementById("listitem").style.background = "red"
+      activeColor.value = "red"
+    }
+
     function removeItem () {
       emit("remove-item", props.income.id);
     }
 
     return {
       formattedDate,
-      removeItem
+      removeItem,
+      activeColor
     }
   }
 }

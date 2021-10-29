@@ -30,7 +30,7 @@ header h1 {
 header .total-income {
   font-family: 'Fira Code', 'Fira Sans', sans-serif;
   background-color: #FFCE00;
-  color: #FFF;
+  color: #000;
   font-size: 20px;
   font-weight: 900;
   padding: 5px 10px;

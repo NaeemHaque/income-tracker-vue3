@@ -1,7 +1,9 @@
 <template>
-  <Header :totalIncome = "state.totalIncome" />
-  <Form @add-income="AddIncome"/>
-  <IncomeList :state="state" @remove-item="removeItem"/>
+
+   <Header :totalIncome = "state.totalIncome" />
+   <Form @add-income="AddIncome"/>
+   <IncomeList :state="state" @remove-item="removeItem"/>
+
 </template>
 
 <script>
@@ -31,7 +33,7 @@ export default {
 
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
         temp = state.income.sort( function (a,b) {
-          return b.date - a.date
+          return a.date - b.date
         } )
 
         return temp
@@ -46,7 +48,8 @@ export default {
         id: Date.now(),
         desc: data.desc,
         value: parseInt(data.value),
-        date: newD.getTime()
+        date: newD.getTime(),
+        isNeg: data.isNeg
       }]
     }
     function removeItem(id) {
@@ -80,4 +83,5 @@ export default {
 body {
   background: #2c2c30;
 }
+
 </style>
