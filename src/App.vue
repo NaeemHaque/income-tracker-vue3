@@ -1,13 +1,16 @@
 <template>
-
-   <Header :totalIncome = "state.totalIncome" />
-   <Form @add-income="AddIncome"/>
-   <IncomeList :state="state" @remove-item="removeItem"/>
+  <body>
+     <Header :totalIncome = "state.totalIncome" />
+     <Form @add-income="AddIncome"/>
+     <IncomeList :state="state" @remove-item="removeItem"/>
+     <button class="download" @click="downloadPdf">Download</button>
+   </body>
 
 </template>
 
 <script>
 import {computed, reactive} from "vue";
+import { jsPDF } from "jspdf";
 
 import Header from './components/Header'
 import Form from './components/Form'
@@ -56,12 +59,31 @@ export default {
       state.income = state.income.filter(v => v.id != id);
     }
 
+    function downloadPdf(){
+      let doc = new jsPDF({
+        unit: 'mm',
+        format: 'a4',
+        putOnlyUsedFonts:true,
+        floatPrecision: 16 // or "smart", default is 16
+      });
+      doc.html(document.body, {
+        callback: function (doc) {
+          doc.save("income-tracker.pdf");
+        },
+        x: 10,
+        y: 10,
+        width: 190,
+        windowWidth: 1000
+      });
+    }
+
 
     return {
       state,
       AddIncome,
       IncomeList,
-      removeItem
+      removeItem,
+      downloadPdf
     }
   },
   components: {
@@ -83,5 +105,21 @@ export default {
 body {
   background: #2c2c30;
 }
+.download {
+  font-family: 'Fira Code', 'Fira Sans', sans-serif;
+  background-color: #FFCE00;
+  color: #000;
+  font-size: 20px;
+  font-weight: 900;
+  padding: 5px 10px;
+  width: 130px;
+  text-align: center;
+  border-radius: 8px;
+  text-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
+  box-shadow: 2px 3px 6px lightgrey;
+  display: flex;
+  margin: 0 auto !important;
+  cursor: pointer;
 
+}
 </style>
